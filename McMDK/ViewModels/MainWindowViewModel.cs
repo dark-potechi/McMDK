@@ -63,7 +63,28 @@ namespace McMDK.ViewModels
         {
         }
 
+        #region CreateProjectCommand
 
+        private ViewModelCommand _CreateProjectCommand;
+        
+        public ViewModelCommand CreateProjectCommand
+        {
+            get
+            {
+                if(_CreateProjectCommand == null)
+                {
+                    _CreateProjectCommand = new ViewModelCommand(CreateNewProject);
+                }
+                return _CreateProjectCommand;
+            }
+        }
+
+        public void CreateNewProject()
+        {
+            
+        }
+
+        #endregion
 
         public string Title
         {

@@ -59,7 +59,9 @@
             <RibbonTab Header="ホーム">
                 <RibbonGroup Header="プロジェクト">
                     <RibbonButton Label="新規"
-                                  LargeImageSource="../Resources/document_32xLG.png"/>
+                                  LargeImageSource="../Resources/document_32xLG.png"
+                                  Command="{Binding CreateProjectCommand}"
+                                  />
                     <RibbonButton Label="開く"
                                   LargeImageSource="../Resources/folder_Open_32xLG.png"/>
                     <RibbonButton Label="保存"
