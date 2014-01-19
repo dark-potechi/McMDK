@@ -19,6 +19,16 @@ namespace McMDK.Plugin
         string Version { get; }
 
         /// <summary>
+        /// プラグインの作者を取得します。
+        /// </summary>
+        string Author { get; }
+
+        /// <summary>
+        /// プラグインの固有IDを取得します。
+        /// </summary>
+        string PluginID { get; }
+
+        /// <summary>
         /// プラグインロード時に呼び出されます。
         /// </summary>
         void Initialize();

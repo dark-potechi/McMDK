@@ -5,6 +5,8 @@ using System.Text;
 
 using Livet;
 
+using McMDK.Data;
+
 namespace McMDK.Models
 {
     public class Model : NotificationObject
@@ -12,5 +14,7 @@ namespace McMDK.Models
         /*
          * NotificationObjectはプロパティ変更通知の仕組みを実装したオブジェクトです。
          */
+
+        public Project CurrentProject { set; get; }
     }
 }

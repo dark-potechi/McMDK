@@ -5,7 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace McMDK
+using McMDK.Utils.Log;
+
+namespace McMDK.Utils
 {
     public class Define
     {
@@ -25,17 +27,36 @@ namespace McMDK
             return Version + "." + Release;
         }
 
+        public static Logger GetLogger()
+        {
+            if(logger == null)
+            {
+                logger = new Logger("McMDK");
+            }
+            return logger;
+        }
+
+        static readonly string CurrentDirectory = System.IO.Directory.GetCurrentDirectory();
+
+        static Logger logger;
+
         public static readonly string Version = "2.0.0";
 
         public static readonly int Release = 25;
 
-        public static readonly string PluginDirectory = "plugins";
+        public static readonly string PluginDirectory = CurrentDirectory + "\\plugins";
 
-        public static readonly string ProjectDirectory = "projects";
+        public static readonly string ProjectDirectory = CurrentDirectory + "\\projects";
+
+        public static readonly string LogDirectory = CurrentDirectory + "\\logs";
 
         public static readonly string ProtectPass = "Mi8dEppKhXck95rgmNfyc3AXd";
 
         public static readonly string NewVersionUrl = "http://tuyapin.net/mcmdk/application/version.xml";
+
+        public static readonly string ForgeVersionsUrl = "http://tuyapin.net/mcmdk/application/forge/{0}.xml";
+
+        public static readonly string MinecraftVersionUrl = "http://tuyapin.net/mcmdk/application/minecraft.xml";
 
         public static readonly string MinecraftForgeUrl = "http://files.minecraftforge.net/minecraftforge/minecraftforge-src-{0}-{1}.zip";
 
@@ -44,6 +65,8 @@ namespace McMDK
         public static readonly string CoderPackUrl = "http://mcp.ocean-labs.de/files/archive/mcp{0}.zip";
 
         public static readonly string MinecraftLoginUrl = "https://login.minecraft.net/?user={0}&password={1}&version=14";
+
+        public static readonly string UpdateMd5Uri = "http://api.tuyapin.net/mcmdk/2/updatemd5.php";
 
 
     }

@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Livet">
       <SpecificVersion>False</SpecificVersion>
@@ -42,6 +45,9 @@
     <Reference Include="Microsoft.Expression.Interactions">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>InfrastructureAssemblies\Microsoft.Expression.Interactions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack">
+      <HintPath>..\packages\Windows7APICodePack-Core.1.1.0.0\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -67,6 +73,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModels\NewProjectWindowViewModel.cs" />
+    <Compile Include="Views\NewProjectWindow.xaml.cs">
+      <DependentUpon>NewProjectWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -75,13 +85,18 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Define.cs" />
+    <Compile Include="Data\Mod.cs" />
+    <Compile Include="Data\Project.cs" />
     <Compile Include="Models\Model.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\NewProjectWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -101,6 +116,8 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.manifest" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -148,6 +165,10 @@
     <ProjectReference Include="..\McMDK.Plugin\McMDK.Plugin.csproj">
       <Project>{c6fafafa-659e-4956-b21f-4571dbb144b6}</Project>
       <Name>McMDK.Plugin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\McMDK.Utils\McMDK.Utils.csproj">
+      <Project>{e4e098c1-7505-44cd-b707-b1a08c2b0d0b}</Project>
+      <Name>McMDK.Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

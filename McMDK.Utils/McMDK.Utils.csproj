@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C6FAFAFA-659E-4956-B21F-4571DBB144B6}</ProjectGuid>
+    <ProjectGuid>{E4E098C1-7505-44CD-B707-B1A08C2B0D0B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>McMDK.Plugin</RootNamespace>
-    <AssemblyName>McMDK.Plugin</AssemblyName>
+    <RootNamespace>McMDK.Utils</RootNamespace>
+    <AssemblyName>McMDK.Utils</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,20 +39,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IPlugin.cs" />
-    <Compile Include="Plugin.cs" />
-    <Compile Include="PluginLoader.cs" />
+    <Compile Include="Define.cs" />
+    <Compile Include="FileController.cs" />
+    <Compile Include="Log\Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\McMDK.Utils\McMDK.Utils.csproj">
-      <Project>{e4e098c1-7505-44cd-b707-b1a08c2b0d0b}</Project>
-      <Name>McMDK.Utils</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Gui\" />
-    <Folder Include="Source\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -12,14 +12,11 @@ using Livet.EventListeners;
 using Livet.Messaging.Windows;
 
 using McMDK.Models;
-using McMDK.Utils;
 using McMDK.Views;
-
-using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace McMDK.ViewModels
 {
-    public class MainWindowViewModel : ViewModel
+    public class NewProjectWindowViewModel : ViewModel, IDataErrorInfo
     {
         /* コマンド、プロパティの定義にはそれぞれ 
          * 
@@ -63,86 +60,159 @@ namespace McMDK.ViewModels
          * 自動的にUIDispatcher上での通知に変換されます。変更通知に際してUIDispatcherを操作する必要はありません。
          */
 
-        private Model Model = new Model();
+        public NewProjectWindow View;
 
-        public MainWindow View;
-
-        //Views
-        private NewProjectWindow npw = new NewProjectWindow();
+        private List<string> _MinecraftVersions = new List<string>{ "", "1.2.5", "1.6.2" };
+        private List<string> _MinecraftForgeVers = new List<string> { "", "1.2.4.556" };
 
         public void Initialize()
         {
-            this.View.MainGrid.Children.Add(npw);
+            this.ProjectName = "";
         }
-        
-        #region CreateProjectCommand
 
-        private ViewModelCommand _CreateProjectCommand;
-        
-        public ViewModelCommand CreateProjectCommand
+        #region IDataError
+
+        public Dictionary<string, string> _errors = new Dictionary<string, string>();
+
+        public string Error
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public string this[string name]
         {
             get
             {
-                if(_CreateProjectCommand == null)
+                if (_errors.ContainsKey(name))
                 {
-                    _CreateProjectCommand = new ViewModelCommand(CreateNewProject);
+                    return _errors[name];
                 }
-                return _CreateProjectCommand;
-            }
-        }
-
-        public void CreateNewProject()
-        {
-            this.npw.Show();
-        }
-
-        #endregion
-
-
-        #region OpenProjectCommand
-
-        private ViewModelCommand _OpenProjectCommand;
-
-        public ViewModelCommand OpenProjectCommand
-        {
-            get
-            {
-                if(_OpenProjectCommand == null)
-                {
-                    _OpenProjectCommand = new ViewModelCommand(OpenProject);
-                }
-                return _OpenProjectCommand;
-            }
-        }
-
-        public void OpenProject()
-        {
-            if(this.Model.CurrentProject != null)
-            {
-                var dialog = new TaskDialog();
-                dialog.Caption = "警告";
-                dialog.InstructionText = "プロジェクトはすでに開かれています。";
-                dialog.Text = "既に開かれているプロジェクトを閉じて、別のプロジェクトを開きますか？";
-                dialog.Icon = TaskDialogStandardIcon.Warning;
-                dialog.StandardButtons = TaskDialogStandardButtons.Yes | TaskDialogStandardButtons.No;
-                dialog.Opened += (s, e) =>
-                {
-                    var d = (TaskDialog)s;
-                    d.Icon = d.Icon;
-                };
-                dialog.Show();
+                return null;
             }
         }
 
         #endregion
 
 
-        public string Title
+        #region MinecraftVersionsプロパティ
+
+        public List<string> MinecraftVersions
         {
             get
             {
-                return "Minecraft Mod Development Kit " + Define.GetVersion();
+                return _MinecraftVersions;
             }
         }
+
+        #endregion
+
+
+        #region MinecraftForgeVersプロパティ
+
+        public List<string> MinecraftForgeVers
+        {
+            get
+            {
+                return _MinecraftForgeVers;
+            }
+        }
+
+        #endregion
+
+
+        #region ProjectName変更通知プロパティ
+
+        private string _ProjectName;
+        public string ProjectName
+        {
+            get
+            {
+                return this._ProjectName;
+            }
+            set
+            {
+                if(EqualityComparer<string>.Default.Equals(this._ProjectName, value))
+                {
+                    return;
+                }
+                this._ProjectName = value;
+                RaisePropertyChanged("ProjectName");
+
+                if(string.IsNullOrEmpty(this._ProjectName))
+                {
+                    _errors["ProjectName"] = "プロジェクト名を入力してください。";
+                }
+                else
+                {
+                    _errors["ProjectName"] = null;
+                }
+            }
+        }
+
+        #endregion
+
+
+        #region MinecraftVersion変更通知プロパティ
+
+        private string _MinecraftVersion;
+        public string MinecraftVersion
+        {
+            get
+            {
+                return this._MinecraftVersion;
+            }
+            set
+            {
+                if (EqualityComparer<string>.Default.Equals(this._MinecraftVersion, value))
+                {
+                    return;
+                }
+                this._MinecraftVersion = value;
+                RaisePropertyChanged("MinecraftVersion");
+
+                if (string.IsNullOrEmpty(this._MinecraftVersion))
+                {
+                    _errors["MinecraftVersion"] = "Minecraftのバージョンを選択してください。";
+                }
+                else
+                {
+                    _errors["MinecraftVersion"] = null;
+                }
+            }
+        }
+
+        #endregion
+
+
+        #region MinecraftForgeVer変更通知プロパティ
+
+        private string _MinecraftForgeVer;
+        public string MinecraftForgeVer
+        {
+            get
+            {
+                return this._MinecraftForgeVer;
+            }
+            set
+            {
+                if (EqualityComparer<string>.Default.Equals(this._MinecraftForgeVer, value))
+                {
+                    return;
+                }
+                this._MinecraftForgeVer = value;
+                RaisePropertyChanged("MinecraftForgeVer");
+
+                if (string.IsNullOrEmpty(this._MinecraftForgeVer))
+                {
+                    _errors["MinecraftForgeVer"] = "Minecraft Forgeのバージョンを選択してください。";
+                }
+                else
+                {
+                    _errors["MinecraftForgeVer"] = null;
+                }
+            }
+        }
+
+        #endregion
     }
 }

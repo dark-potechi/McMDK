@@ -23,18 +23,29 @@ namespace McMDK.Views
      */
 
     /// <summary>
-    /// MainWindow.xaml の相互作用ロジック
+    /// NewProjectWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class NewProjectWindow : UserControl
     {
-        public MainWindow()
+        public NewProjectWindow()
         {
             InitializeComponent();
-
             this.Loaded += (sender, e) =>
-                {
-                    ((McMDK.ViewModels.MainWindowViewModel)this.DataContext).View = this;
-                };
+            {
+                ((McMDK.ViewModels.NewProjectWindowViewModel)this.DataContext).View = this;
+            };
+
+            this.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
+        public void Show()
+        {
+            this.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        public void Dismiss()
+        {
+            this.Visibility = System.Windows.Visibility.Collapsed;
         }
     }
 }

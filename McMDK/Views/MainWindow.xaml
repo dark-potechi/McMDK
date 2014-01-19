@@ -8,7 +8,8 @@
         xmlns:vm="clr-namespace:McMDK.ViewModels"
         Title="{Binding Title}" 
         Height="500" Width="755"
-        MinHeight="500" MinWidth="755">
+        MinHeight="500" MinWidth="755"
+        >
     
     <Window.DataContext>
         <vm:MainWindowViewModel/>
@@ -31,10 +32,9 @@
         </i:EventTrigger>
 
         <!--WindowのCloseキャンセル処理に対応する場合は、WindowCloseCancelBehaviorの使用を検討してください-->
-
     </i:Interaction.Triggers>
-    
-    <Grid>
+
+    <Grid x:Name="MainGrid">
         <Ribbon VerticalAlignment="Top" Height="150" Background="White" Margin="0,-22">
             <Ribbon.ApplicationMenu>
                 <RibbonApplicationMenu>
@@ -63,7 +63,8 @@
                                   Command="{Binding CreateProjectCommand}"
                                   />
                     <RibbonButton Label="開く"
-                                  LargeImageSource="../Resources/folder_Open_32xLG.png"/>
+                                  LargeImageSource="../Resources/folder_Open_32xLG.png"
+                                  Command="{Binding OpenProjectCommand}"/>
                     <RibbonButton Label="保存"
                                   LargeImageSource="../Resources/save_32xLG.png"/>
                     <RibbonButton Label="情報"
