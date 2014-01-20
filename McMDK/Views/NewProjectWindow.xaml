@@ -22,17 +22,8 @@
     <UserControl.BindingGroup>
         <BindingGroup Name="Projects" NotifyOnValidationError="True"/>
     </UserControl.BindingGroup>
-    
-     <i:Interaction.Triggers>
-     
-     	<!--Viewに特別な要件が存在しない限りは、トリガーやアクションの自作にこだわらず積極的にコードビハインドを使いましょう -->
-    	<!--Viewのコードビハインドは、基本的にView内で完結するロジックとViewModelからのイベントの受信(専用リスナを使用する)に限るとトラブルが少なくなります -->
-    	<!--Livet1.1からはコードビハインドでViewModelのイベントを受信するためのWeakEventLisnterサポートが追加されています --> 
-        
-        <!--WindowのContentRenderedイベントのタイミングでViewModelのInitializeメソッドが呼ばれます-->
-        <i:EventTrigger EventName="ContentRendered">
-            <l:LivetCallMethodAction MethodTarget="{Binding}" MethodName="Initialize"/>
-        </i:EventTrigger>
+
+    <i:Interaction.Triggers>
 
         <!--Windowが閉じたタイミングでViewModelのDisposeメソッドが呼ばれます-->
         <i:EventTrigger EventName="Closed">
@@ -45,7 +36,7 @@
     
     <Grid>
         <Rectangle Fill="Black" Opacity="0.5"/>
-        <Border Height="340" Width="500" Background="White" BorderBrush="LightGray" BorderThickness="1" Padding="10">
+        <Border Height="320" Width="500" Background="White" BorderBrush="LightGray" BorderThickness="1" Padding="10">
             <Grid Validation.ValidationAdornerSite="{Binding ElementName=ErrorText}">
                 <Grid.BindingGroup>
                     <BindingGroup Name="Group" NotifyOnValidationError="True">
@@ -66,19 +57,39 @@
                 <TextBox Height="24" Width="250" FontSize="14" 
                          Margin="160,89,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
                          Text="{Binding ProjectName, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                         Validation.ErrorTemplate="{StaticResource Clear}"
                          />
                 <TextBlock Text="Minecraft" FontSize="15" Margin="25,120,0,0" />
                 <ComboBox Height="24" Width="250" FontSize="14"
                           Margin="160,119,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
                           SelectedItem="{Binding MinecraftVersion, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                          ItemsSource="{Binding MinecraftVersions}"
+                          ItemsSource="{Binding MinecraftVersions, Mode=OneWay}"
+                          Validation.ErrorTemplate="{StaticResource Clear}"
                           />
                 <TextBlock Text="Minecraft Forge" FontSize="15" Margin="25,150,0,0" />
                 <ComboBox Height="24" Width="250" FontSize="14"
                           Margin="160,149,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
                           SelectedItem="{Binding MinecraftForgeVer, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                          ItemsSource="{Binding MinecraftForgeVers}"
+                          ItemsSource="{Binding MinecraftForgeVers, Mode=OneWay}"
+                          Validation.ErrorTemplate="{StaticResource Clear}"
                           />
+                
+                <CheckBox Height="24" Width="250" FontSize="14"
+                          Content="mcmod.infoを生成する"
+                          Margin="25,180,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
+                          IsChecked="{Binding GenMcModInfo}"/>
+                
+                <TextBlock Text="{Binding Message}" FontSize="14" Foreground="Red"
+                           Margin="25,210,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
+                           TextWrapping="Wrap"/>
+
+                <Button Content="作成する" Command="{Binding CreateButtonCommand}"
+                        Height="30" Width="100" FontSize="15"
+                        Margin="0,0,10,10" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                
+                <Button Content="キャンセル" Command="{Binding CancelButtonCommand}"
+                        Height="30" Width="100" FontSize="15"
+                        Margin="0,0,120,10" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
             </Grid>
         </Border>
     </Grid>

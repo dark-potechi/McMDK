@@ -129,7 +129,7 @@ namespace McMDK.Utils.Log
             sb.Append(msg.ToString().Replace("\n", "").Replace("\r", ""));
             if(e != null)
             {
-                sb.Append(e.ToString() + ":" + e.Message + " at " + e.StackTrace + ":" + e.Source);
+                sb.Append("\r\n" + e.ToString());
             }
             Console.WriteLine(sb.ToString());
             this.sw.WriteLine(sb.ToString());

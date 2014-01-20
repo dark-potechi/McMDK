@@ -11,8 +11,11 @@ using Livet.Messaging.IO;
 using Livet.EventListeners;
 using Livet.Messaging.Windows;
 
+using McMDK.Data;
 using McMDK.Models;
 using McMDK.Views;
+
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace McMDK.ViewModels
 {
@@ -62,13 +65,91 @@ namespace McMDK.ViewModels
 
         public NewProjectWindow View;
 
-        private List<string> _MinecraftVersions = new List<string>{ "", "1.2.5", "1.6.2" };
-        private List<string> _MinecraftForgeVers = new List<string> { "", "1.2.4.556" };
+        private List<string> _MinecraftVersions = new List<string>();
+        private List<string> _MinecraftForgeVers = new List<string>();
 
         public void Initialize()
         {
             this.ProjectName = "";
+            this.ProjectName = null;
+            this.MinecraftVersion = "";
+            this.MinecraftVersion = null;
+            this.MinecraftForgeVer = "";
+            this.MinecraftForgeVer = null;
+            this.MinecraftVersions = Minecraft.MinecraftVersions;
         }
+
+        public void Clear()
+        {
+            this.ProjectName = "";
+            this.ProjectName = null;
+            this.MinecraftVersion = null;
+            this.MinecraftForgeVer = null;
+        }
+
+
+        #region [Create]Button
+
+        private ViewModelCommand _CreateButtonCommand;
+        public ViewModelCommand CreateButtonCommand
+        {
+            get
+            {
+                if (_CreateButtonCommand == null)
+                {
+                    _CreateButtonCommand = new ViewModelCommand(CreateProject);
+                }
+                return _CreateButtonCommand;
+            }
+        }
+
+        public void CreateProject()
+        {
+            //Create a new project;
+            if(String.IsNullOrEmpty(this._MinecraftForgeVer) || String.IsNullOrEmpty(this._MinecraftVersion) || String.IsNullOrEmpty(this._ProjectName))
+            {
+                var taskDialog = new TaskDialog();
+                taskDialog.Caption = "入力エラー";
+                taskDialog.InstructionText = "値が入力されていません。";
+                taskDialog.Text = "値が十分ではありません。\nすべての値を入力する必要があります。";
+                taskDialog.Icon = TaskDialogStandardIcon.Error;
+                taskDialog.StandardButtons = TaskDialogStandardButtons.Ok;
+                taskDialog.Opened += (sender, e) =>
+                {
+                    var dialog = (TaskDialog)sender;
+                    dialog.Icon = dialog.Icon;
+                };
+                taskDialog.Show();
+                return;
+            }
+
+        }
+
+        #endregion
+
+
+        #region [Cancel]Button
+
+        private ViewModelCommand _CancelButtonCommand;
+        public ViewModelCommand CancelButtonCommand
+        {
+            get
+            {
+                if (_CancelButtonCommand == null)
+                {
+                    _CancelButtonCommand = new ViewModelCommand(CancelButton);
+                }
+                return _CancelButtonCommand;
+            }
+        }
+
+        public void CancelButton()
+        {
+            View.Dismiss();
+        }
+
+        #endregion
+
 
         #region IDataError
 
@@ -94,6 +175,22 @@ namespace McMDK.ViewModels
         #endregion
 
 
+        #region GenMcModInfo
+        private bool _GenMcModInfo;
+        public bool GenMcModInfo
+        {
+            get
+            {
+                return _GenMcModInfo; 
+            }
+            set
+            {
+                _GenMcModInfo = value;
+            }
+        }
+        #endregion
+
+
         #region MinecraftVersionsプロパティ
 
         public List<string> MinecraftVersions
@@ -101,6 +198,11 @@ namespace McMDK.ViewModels
             get
             {
                 return _MinecraftVersions;
+            }
+            set
+            {
+                _MinecraftVersions = value;
+                RaisePropertyChanged("MinecraftVersions");
             }
         }
 
@@ -114,6 +216,30 @@ namespace McMDK.ViewModels
             get
             {
                 return _MinecraftForgeVers;
+            }
+            set
+            {
+                _MinecraftForgeVers = value;
+                RaisePropertyChanged("MinecraftForgeVers");
+            }
+        }
+
+        #endregion
+
+
+        #region Messageプロパティ
+
+        private string _Message;
+        public string Message
+        {
+            get
+            {
+                return this._Message;
+            }
+            set
+            {
+                _Message = value;
+                RaisePropertyChanged("Message");
             }
         }
 
@@ -177,6 +303,18 @@ namespace McMDK.ViewModels
                 else
                 {
                     _errors["MinecraftVersion"] = null;
+                    //Forge切り替え
+                    MinecraftForgeVers = Minecraft.ForgeVersions[value];
+                    MinecraftForgeVer = "";
+
+                    if (this._MinecraftVersion.Contains("Gradle"))
+                    {
+                        this.Message = "※GradleはMinecraft Forge #953以降で使用されているビルドツールです。";
+                    }
+                    else
+                    {
+                        this.Message = "";
+                    }
                 }
             }
         }

@@ -23,37 +23,13 @@ namespace McMDK.Views
      */
 
     /// <summary>
-    /// NewProjectWindow.xaml の相互作用ロジック
+    /// ConfigWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class NewProjectWindow : UserControl
+    public partial class ConfigWindow : UserControl
     {
-        public NewProjectWindow()
+        public ConfigWindow()
         {
             InitializeComponent();
-            this.Loaded += (sender, e) =>
-            {
-                ((McMDK.ViewModels.NewProjectWindowViewModel)this.DataContext).View = this;
-            };
-
-            this.Visibility = System.Windows.Visibility.Collapsed;
-        }
-
-        public void Show()
-        {
-            this.Visibility = System.Windows.Visibility.Visible;
-            ((McMDK.ViewModels.NewProjectWindowViewModel)this.DataContext).Clear();
-        }
-
-        public void Dismiss()
-        {
-            this.Visibility = System.Windows.Visibility.Collapsed;
-        }
-
-        protected override void OnRender(DrawingContext drawingContext)
-        {
-            base.OnRender(drawingContext);
-
-            ((McMDK.ViewModels.NewProjectWindowViewModel)this.DataContext).Initialize();
         }
     }
 }

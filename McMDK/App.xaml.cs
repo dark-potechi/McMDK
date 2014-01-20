@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Windows;
+using System.Xml;
+using System.Xml.Linq;
 
 using Livet;
 
+using McMDK.Data;
 using McMDK.Utils;
 using McMDK.Plugin;
 
@@ -90,6 +94,51 @@ namespace McMDK
             }
 
             Define.GetLogger().Info("McMDK initialized");
+            this.CheckUpdate();
+        }
+
+        private void CheckUpdate()
+        {
+            System.Net.WebClient client = new System.Net.WebClient();
+            string xml = client.DownloadString(new Uri(Define.NewVersionUrl));
+
+            string v = "";
+
+            var a = from b in XElement.Parse(xml).Elements()
+                    select new 
+                    {
+                        Version = b.Element("McMDK").Value
+                    };
+            foreach(var item in a)
+            {
+                v = item.Version;
+            }
+            int r = int.Parse(v.Substring(v.LastIndexOf(".") + 1));
+            if(Define.Release < r)
+            {
+                //New version
+                var taskDialog = new TaskDialog();
+                taskDialog.Caption = "更新";
+                taskDialog.InstructionText = "McMDKの最新版がリリースされています！";
+                taskDialog.Text = "McMDKの最新版\"" + v + "\"がリリースされています。\n更新しますか？";
+                taskDialog.Icon = TaskDialogStandardIcon.Information;
+                taskDialog.StandardButtons = TaskDialogStandardButtons.Yes | TaskDialogStandardButtons.No;
+                taskDialog.Opened += (sender, e) =>
+                    {
+                        var dialog = (TaskDialog)sender;
+                        dialog.Icon = dialog.Icon;
+                    };
+                if(taskDialog.Show() == TaskDialogResult.Yes)
+                {
+                    //Update
+                }
+            }
+            this.DownloadResources();
+        }
+
+        private void DownloadResources()
+        {
+            Minecraft.Load();
         }
         
         [System.Diagnostics.Conditional("DEBUG")]
@@ -100,7 +149,7 @@ namespace McMDK
 
             string md5 = FileController.GetMD5(Define.FilePath);
 
-            System.Net.WebClient client = new System.Net.WebClient();
+            WebClient client = new WebClient();
             client.DownloadString(new Uri(Define.UpdateMd5Uri + "?md5=" + md5));
         }
 
