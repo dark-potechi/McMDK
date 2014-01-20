@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace McMDK.Views
+namespace McMDK.Views.Config
 {
     /* 
      * ViewModelからの変更通知などの各種イベントを受け取る場合は、PropertyChangedWeakEventListenerや
@@ -23,37 +23,13 @@ namespace McMDK.Views
      */
 
     /// <summary>
-    /// ConfigWindow.xaml の相互作用ロジック
+    /// CommonConfig.xaml の相互作用ロジック
     /// </summary>
-    public partial class ConfigWindow : UserControl
+    public partial class CommonConfig : UserControl
     {
-        public ConfigWindow()
+        public CommonConfig()
         {
             InitializeComponent();
-
-            this.Loaded += (sender, e) =>
-            {
-                ((McMDK.ViewModels.ConfigWindowViewModel)this.DataContext).View = this;
-            };
-
-            this.Dismiss();
-        }
-
-        public void Show()
-        {
-            this.Visibility = System.Windows.Visibility.Visible;
-        }
-
-        public void Dismiss()
-        {
-            this.Visibility = System.Windows.Visibility.Collapsed;
-        }
-
-        protected override void OnRender(DrawingContext drawingContext)
-        {
-            base.OnRender(drawingContext);
-
-            ((McMDK.ViewModels.ConfigWindowViewModel)this.DataContext).Initialize();
         }
     }
 }

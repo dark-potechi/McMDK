@@ -12,12 +12,10 @@ using Livet.EventListeners;
 using Livet.Messaging.Windows;
 
 using McMDK.Models;
-using McMDK.Views;
-using McMDK.ViewModels.Config;
 
-namespace McMDK.ViewModels
+namespace McMDK.ViewModels.Config
 {
-    public class ConfigWindowViewModel : ViewModel
+    public class CommonConfigViewModel : ViewModel
     {
         /* コマンド、プロパティの定義にはそれぞれ 
          * 
@@ -60,69 +58,149 @@ namespace McMDK.ViewModels
          * LivetのViewModelではプロパティ変更通知(RaisePropertyChanged)やDispatcherCollectionを使ったコレクション変更通知は
          * 自動的にUIDispatcher上での通知に変換されます。変更通知に際してUIDispatcherを操作する必要はありません。
          */
-        public ConfigWindow View;
 
         public void Initialize()
         {
         }
 
+        #region IsShowToolTip変更通知プロパティ
 
-        #region OKCommand
-
-        private ViewModelCommand _OKCommand;
-        public ViewModelCommand OKCommand
+        private bool _IsShowToolTip;
+        public bool IsShowToolTip
         {
             get
             {
-                if(_OKCommand == null)
-                {
-                    _OKCommand = new ViewModelCommand(Apply);
-                }
-                return _OKCommand;
+                return this._IsShowToolTip;
             }
-        }
-
-        public void Apply()
-        {
-            //保存
-
-            this.View.Dismiss();
+            set
+            {
+                if (EqualityComparer<bool>.Default.Equals(this._IsShowToolTip, value))
+                {
+                    return;
+                }
+                this._IsShowToolTip = value;
+                RaisePropertyChanged("IsShowToolTip");
+            }
         }
 
         #endregion
 
 
-        #region CancelCommand
+        #region IsSendReport
 
-        private ViewModelCommand _CancelCommand;
-        public ViewModelCommand CancelCommand
+        private bool _IsSendReport;
+        public bool IsSendReport
         {
             get
             {
-                if(_CancelCommand == null)
-                {
-                    _CancelCommand = new ViewModelCommand(Dismiss);
-                }
-                return _CancelCommand;
+                return this._IsSendReport;
             }
-        }
-
-        public void Dismiss()
-        {
-            this.View.Dismiss();
+            set
+            {
+                if(EqualityComparer<bool>.Default.Equals(this._IsSendReport, value))
+                {
+                    return;
+                }
+                this._IsSendReport = value;
+                RaisePropertyChanged("IsSendReport");
+            }
         }
 
         #endregion
 
 
-        #region CommonConfigViewModel
+        #region IsAutoUpdate変更通知プロパティ
 
-        private CommonConfigViewModel _CommonConfigViewModel = new CommonConfigViewModel();
-        public CommonConfigViewModel CommonConfigViewModel
+        private bool _IsAutoUpdate;
+        public bool IsAutoUpdate
         {
             get
             {
-                return _CommonConfigViewModel;
+                return this._IsAutoUpdate;
+            }
+            set
+            {
+                if(EqualityComparer<bool>.Default.Equals(this._IsAutoUpdate, value))
+                {
+                    return;
+                }
+                this._IsAutoUpdate = value;
+                RaisePropertyChanged("IsAutoUpdate");
+            }
+        }
+
+        #endregion
+
+
+        #region IsNoAssets
+
+        private bool _IsNoAssets;
+        public bool IsNoAssets
+        {
+            get
+            {
+                return this._IsNoAssets;
+            }
+            set
+            {
+                if (EqualityComparer<bool>.Default.Equals(this._IsNoAssets, value))
+                {
+                    return;
+                }
+                this._IsNoAssets = value;
+                RaisePropertyChanged("IsNoAssets");
+            }
+        }
+
+        #endregion
+
+
+        #region IsBackgroundWork
+
+        private bool _IsBackgroundWork;
+        public bool IsBackgroundWork
+        {
+            get
+            {
+                return this._IsBackgroundWork;
+            }
+            set
+            {
+                if (EqualityComparer<bool>.Default.Equals(this._IsBackgroundWork, value))
+                {
+                    return;
+                }
+                this._IsBackgroundWork = value;
+                RaisePropertyChanged("IsBackgroundWork");
+            }
+        }
+
+        #endregion
+
+
+        #region IsOfflineWork
+
+        private bool _IsOfflineWork;
+        public bool IsOfflineWork
+        {
+            get
+            {
+                return this._IsOfflineWork;
+            }
+            set
+            {
+                if (EqualityComparer<bool>.Default.Equals(this._IsOfflineWork, value))
+                {
+                    return;
+                }
+                this._IsOfflineWork = value;
+                RaisePropertyChanged("IsOfflineWork");
+                if(this._IsOfflineWork)
+                {
+                    this.IsNoAssets = true;
+                    this.IsSendReport = false;
+                    this.IsAutoUpdate = false;
+                }
             }
         }
 

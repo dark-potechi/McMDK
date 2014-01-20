@@ -70,15 +70,41 @@ namespace McMDK.ViewModels
         //Views
         private NewProjectWindow npw = new NewProjectWindow();
 
+        private ConfigWindow cw = new ConfigWindow();
+
         public void Initialize()
         {
             this.View.MainGrid.Children.Add(npw);
+            this.View.MainGrid.Children.Add(cw);
         }
-        
+
+
+        #region OpenSettingsCommand
+
+        private ViewModelCommand _OpenSettingsCommand;
+        public ViewModelCommand OpenSettingsCommand
+        {
+            get
+            {
+                if(_OpenSettingsCommand == null)
+                {
+                    _OpenSettingsCommand = new ViewModelCommand(ShowSettings);
+                }
+                return _OpenSettingsCommand;
+            }
+        }
+
+        public void ShowSettings()
+        {
+            this.cw.Show();
+        }
+
+        #endregion
+
+
         #region CreateProjectCommand
 
         private ViewModelCommand _CreateProjectCommand;
-        
         public ViewModelCommand CreateProjectCommand
         {
             get

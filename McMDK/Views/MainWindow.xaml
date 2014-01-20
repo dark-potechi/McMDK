@@ -46,7 +46,8 @@
                     <RibbonApplicationMenuItem Header="名前をつけて保存"/>
                     <RibbonSeparator/>
                     <RibbonApplicationMenuItem Header="設定"
-                                               ImageSource="../Resources/gear_32xLG.png"/>
+                                               ImageSource="../Resources/gear_32xLG.png"
+                                               Command="{Binding OpenSettingsCommand}"/>
                     <RibbonApplicationMenuItem Header="情報"
                                                ImageSource="../Resources/StatusAnnotations_Information_32xLG_color.png"/>
                     <RibbonApplicationMenuItem Header="終了"

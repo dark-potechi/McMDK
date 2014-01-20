@@ -35,7 +35,7 @@ namespace McMDK.Views
                 ((McMDK.ViewModels.NewProjectWindowViewModel)this.DataContext).View = this;
             };
 
-            this.Visibility = System.Windows.Visibility.Collapsed;
+            this.Dismiss();
         }
 
         public void Show()

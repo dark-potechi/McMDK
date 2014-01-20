@@ -5,29 +5,67 @@
         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
         xmlns:l="http://schemas.livet-mvvm.net/2011/wpf"
         xmlns:v="clr-namespace:McMDK.Views"
-        xmlns:vm="clr-namespace:McMDK.ViewModels">
+        xmlns:vm="clr-namespace:McMDK.ViewModels"
+        xmlns:c="clr-namespace:McMDK.Views.Config"     
+        >
     
     <UserControl.DataContext>
         <vm:ConfigWindowViewModel/>
     </UserControl.DataContext>
-    
-     <i:Interaction.Triggers>
-     
-     	<!--Viewに特別な要件が存在しない限りは、トリガーやアクションの自作にこだわらず積極的にコードビハインドを使いましょう -->
-    	<!--Viewのコードビハインドは、基本的にView内で完結するロジックとViewModelからのイベントの受信(専用リスナを使用する)に限るとトラブルが少なくなります -->
-    	<!--Livet1.1からはコードビハインドでViewModelのイベントを受信するためのWeakEventLisnterサポートが追加されています --> 
-        
-
-        <!--Windowが閉じたタイミングでViewModelのDisposeメソッドが呼ばれます-->
-        <i:EventTrigger EventName="Closed">
-            <l:DataContextDisposeAction/>
-        </i:EventTrigger>
-
-        <!--WindowのCloseキャンセル処理に対応する場合は、WindowCloseCancelBehaviorの使用を検討してください-->
-
+    <i:Interaction.Triggers>
     </i:Interaction.Triggers>
     
     <Grid>
-        
+        <Rectangle Fill="Black" Opacity="0.5"/>
+        <Border Height="400" Width="640" Background="White" BorderBrush="LightGray" BorderThickness="1" Padding="10">
+            <Grid>
+                <TextBlock Text="設定" FontSize="18" Margin="10,10"/>
+                <Line X1="10" X2="600" Y1="40" Y2="40" Stroke="Black" StrokeThickness="0.10"/>
+                <ListBox x:Name="Box" Height="280" Width="120" Margin="10,50,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <ListBox.Resources>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="White"/>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="White"/>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black"/>
+                    </ListBox.Resources>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                </Trigger>
+                            </Style.Triggers>
+                            <Setter Property="FontSize" Value="15"/>
+                            <Setter Property="Cursor" Value="Hand"/>
+                            <Setter Property="Height" Value="35"  />
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBoxItem Content="一般" Selector.IsSelected="True" />
+                    <ListBoxItem Content="Mod情報" />
+                    <ListBoxItem Content="上級者向け" />
+                    <ListBoxItem Content="プラグイン" />
+                </ListBox>
+                <Grid Margin="150,50,10,50">
+                    <c:CommonConfig DataContext="{Binding CommonConfigViewModel}">
+                        <c:CommonConfig.Style>
+                            <Style TargetType="c:CommonConfig">
+                                <Setter Property="Visibility" Value="Hidden"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SelectedIndex, ElementName=Box}" Value="0">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </c:CommonConfig.Style>
+                    </c:CommonConfig>
+                </Grid>
+                <Button Content="OK" FontSize="14" Height="30" Width="80"
+                        Margin="0,0,100,10" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                        Command="{Binding OKCommand}"/>
+                
+                <Button Content="キャンセル" FontSize="14" Height="30" Width="80"
+                        Margin="0,0,10,10" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                        Command="{Binding CancelCommand}"/>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>
