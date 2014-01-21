@@ -19,6 +19,8 @@ namespace McMDK.Data
 
         public static Dictionary<string, string> MCPVersions = new Dictionary<string, string>();
 
+        public static Dictionary<int, Dictionary<string, string>> MinecraftSource = new Dictionary<int, Dictionary<string, string>>();
+
         public static void Load()
         {
             try

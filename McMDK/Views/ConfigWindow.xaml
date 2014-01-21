@@ -57,6 +57,18 @@
                             </Style>
                         </c:CommonConfig.Style>
                     </c:CommonConfig>
+                    <c:ModInfoConfig DataContext="{Binding ModInfoConfigViewModel}">
+                        <c:ModInfoConfig.Style>
+                            <Style TargetType="c:ModInfoConfig">
+                                <Setter Property="Visibility" Value="Hidden"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SelectedIndex, ElementName=Box}" Value="1">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </c:ModInfoConfig.Style>
+                    </c:ModInfoConfig>
                 </Grid>
                 <Button Content="OK" FontSize="14" Height="30" Width="80"
                         Margin="0,0,100,10" HorizontalAlignment="Right" VerticalAlignment="Bottom"

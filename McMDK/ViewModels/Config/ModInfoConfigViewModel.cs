@@ -15,7 +15,7 @@ using McMDK.Models;
 
 namespace McMDK.ViewModels.Config
 {
-    public class CommonConfigViewModel : ViewModel
+    public class ModInfoConfigViewModel : ViewModel
     {
         /* コマンド、プロパティの定義にはそれぞれ 
          * 
@@ -69,147 +69,119 @@ namespace McMDK.ViewModels.Config
         }
 
 
-        #region IsShowToolTip変更通知プロパティ
+        #region IsUseTemplete変更通知プロパティ
 
-        private bool _IsShowToolTip;
-        public bool IsShowToolTip
+        private string _IsUseTemplete;
+        public string IsUseTemplete
         {
             get
-            {
-                return this._IsShowToolTip;
+            { 
+                return _IsUseTemplete;
             }
             set
             {
-                if (EqualityComparer<bool>.Default.Equals(this._IsShowToolTip, value))
+                if (_IsUseTemplete == value)
                 {
                     return;
                 }
-                this._IsShowToolTip = value;
-                RaisePropertyChanged("IsShowToolTip");
+                _IsUseTemplete = value;
+                RaisePropertyChanged("IsUseTemplete");
             }
         }
 
         #endregion
 
 
-        #region IsSendReport
-
-        private bool _IsSendReport;
-        public bool IsSendReport
+        #region ModID変更通知プロパティ
+        
+        private string _ModID;
+        public string ModID
         {
             get
-            {
-                return this._IsSendReport;
+            { 
+                return _ModID;
             }
             set
             {
-                if(EqualityComparer<bool>.Default.Equals(this._IsSendReport, value))
+                if (_ModID == value)
                 {
                     return;
                 }
-                this._IsSendReport = value;
-                RaisePropertyChanged("IsSendReport");
+                _ModID = value;
+                RaisePropertyChanged("ModID");
             }
         }
 
         #endregion
 
 
-        #region IsAutoUpdate変更通知プロパティ
+        #region Url変更通知プロパティ
 
-        private bool _IsAutoUpdate;
-        public bool IsAutoUpdate
+        private string _Url;
+        public string Url
         {
             get
             {
-                return this._IsAutoUpdate;
+                return _Url;
             }
             set
             {
-                if(EqualityComparer<bool>.Default.Equals(this._IsAutoUpdate, value))
+                if (_Url == value)
                 {
                     return;
                 }
-                this._IsAutoUpdate = value;
-                RaisePropertyChanged("IsAutoUpdate");
+                _Url = value;
+                RaisePropertyChanged("Url");
             }
         }
 
         #endregion
 
 
-        #region IsNoAssets
+        #region Credits変更通知プロパティ
 
-        private bool _IsNoAssets;
-        public bool IsNoAssets
+        private string _Credits;
+        public string Credits
         {
             get
-            {
-                return this._IsNoAssets;
+            { 
+                return _Credits;
             }
             set
             {
-                if (EqualityComparer<bool>.Default.Equals(this._IsNoAssets, value))
+                if (_Credits == value)
                 {
                     return;
                 }
-                this._IsNoAssets = value;
-                RaisePropertyChanged("IsNoAssets");
+                _Credits = value;
+                RaisePropertyChanged("Credits");
             }
         }
 
         #endregion
 
 
-        #region IsBackgroundWork
+        #region Authors変更通知プロパティ
 
-        private bool _IsBackgroundWork;
-        public bool IsBackgroundWork
+        private string _Authors;
+        public string Authors
         {
             get
             {
-                return this._IsBackgroundWork;
+                return _Authors;
             }
             set
             {
-                if (EqualityComparer<bool>.Default.Equals(this._IsBackgroundWork, value))
+                if (_Authors == value)
                 {
                     return;
                 }
-                this._IsBackgroundWork = value;
-                RaisePropertyChanged("IsBackgroundWork");
+                _Authors = value;
+                RaisePropertyChanged("Authors");
             }
         }
 
         #endregion
 
-
-        #region IsOfflineWork
-
-        private bool _IsOfflineWork;
-        public bool IsOfflineWork
-        {
-            get
-            {
-                return this._IsOfflineWork;
-            }
-            set
-            {
-                if (EqualityComparer<bool>.Default.Equals(this._IsOfflineWork, value))
-                {
-                    return;
-                }
-                this._IsOfflineWork = value;
-                RaisePropertyChanged("IsOfflineWork");
-                if(this._IsOfflineWork)
-                {
-                    this.IsNoAssets = true;
-                    this.IsSendReport = false;
-                    this.IsAutoUpdate = false;
-                }
-            }
-        }
-
-        #endregion
     }
 }

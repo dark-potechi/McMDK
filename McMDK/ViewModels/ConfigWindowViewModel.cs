@@ -64,6 +64,7 @@ namespace McMDK.ViewModels
 
         public void Initialize()
         {
+
         }
 
 
@@ -85,6 +86,8 @@ namespace McMDK.ViewModels
         public void Apply()
         {
             //保存
+            this.CommonConfigViewModel.Save();
+            this.ModInfoConfigViewModel.Save();
 
             this.View.Dismiss();
         }
@@ -122,7 +125,21 @@ namespace McMDK.ViewModels
         {
             get
             {
-                return _CommonConfigViewModel;
+                return this._CommonConfigViewModel;
+            }
+        }
+
+        #endregion
+
+
+        #region ModInfoConfigViewModel
+
+        private ModInfoConfigViewModel _ModInfoConfigViewModel = new ModInfoConfigViewModel();
+        public ModInfoConfigViewModel ModInfoConfigViewModel
+        {
+            get
+            {
+                return this._ModInfoConfigViewModel;
             }
         }
 
