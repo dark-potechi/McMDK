@@ -50,6 +50,8 @@ namespace McMDK.Utils
 
         public static readonly string LogDirectory = CurrentDirectory + "\\logs";
 
+        public static readonly string TempDirectory = CurrentDirectory + "\\temp";
+
         public static readonly string ProtectPass = "Mi8dEppKhXck95rgmNfyc3AXd";
 
         public static readonly string NewVersionUrl = "http://tuyapin.net/mcmdk/application/version.xml";
@@ -68,6 +70,14 @@ namespace McMDK.Utils
 
         public static readonly string UpdateMd5Uri = "http://api.tuyapin.net/mcmdk/2/updatemd5.php";
 
+        public static readonly string MinecraftJarUrl = "http://assets.minecraft.net/{0}/minecraft.jar";
 
+        public static readonly string MinecraftSrvJarUrl = "http://assets.minecraft.net/{0}/minecraft_server.jar";
+
+        public static readonly string LibrariesUrl = "http://tuyapin.net/mcmdk/application/libs/";
+
+        public static readonly string MinecraftResUrl = "http://s3.amazonaws.com/MinecraftDownload/";
+
+        public static readonly string PatchesUrl = "http://tuyapin.net/mcmdk/application/patch/{0}.zip";
     }
 }

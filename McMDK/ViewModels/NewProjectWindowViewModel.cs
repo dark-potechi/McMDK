@@ -14,6 +14,7 @@ using Livet.Messaging.Windows;
 using McMDK.Data;
 using McMDK.Models;
 using McMDK.Views;
+using McMDK.MCP;
 
 using Microsoft.WindowsAPICodePack.Dialogs;
 
@@ -122,7 +123,17 @@ namespace McMDK.ViewModels
                 taskDialog.Show();
                 return;
             }
+            Project project = new Project
+            {
+                Mod = new List<Mod>(),
+                Name = this.ProjectName,
+                MCVersion = this.MinecraftVersion,
+                ForgeVersion = this.MinecraftForgeVer,
+                MCPVersion = Minecraft.MCPVersions[this.MinecraftVersion]
+            };
 
+            
+            
         }
 
         #endregion

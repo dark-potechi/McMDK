@@ -14,7 +14,11 @@ namespace McMDK.Data
     {
         public string Name { set; get; }
 
-        public string Version { set; get; }
+        public string MCVersion { set; get; }
+
+        public string ForgeVersion { set; get; }
+
+        public string MCPVersion { set; get; }
 
         public List<Mod> Mod { set; get; }
     }

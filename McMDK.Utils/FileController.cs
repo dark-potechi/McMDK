@@ -226,5 +226,10 @@ namespace McMDK.Utils
                 throw new FileNotFoundException(path);
             }
         }
+
+        public static string GetDirectoryName(string path)
+        {
+            return Path.GetDirectoryName(path);
+        }
     }
 }

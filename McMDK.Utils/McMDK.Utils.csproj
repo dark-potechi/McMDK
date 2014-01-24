@@ -42,6 +42,7 @@
     <Compile Include="Define.cs" />
     <Compile Include="FileController.cs" />
     <Compile Include="Log\Logger.cs" />
+    <Compile Include="Patcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
