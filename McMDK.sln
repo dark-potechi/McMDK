@@ -16,6 +16,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "McMDK.Plugin", "McMDK.Plugi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "McMDK.Utils", "McMDK.Utils\McMDK.Utils.csproj", "{E4E098C1-7505-44CD-B707-B1A08C2B0D0B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceManager", "ResourceManager\ResourceManager.csproj", "{A8FCE174-63F7-4FAB-9F7A-FF3180650286}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +58,16 @@ Global
 		{E4E098C1-7505-44CD-B707-B1A08C2B0D0B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{E4E098C1-7505-44CD-B707-B1A08C2B0D0B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{E4E098C1-7505-44CD-B707-B1A08C2B0D0B}.Release|x86.ActiveCfg = Release|Any CPU
+		{A8FCE174-63F7-4FAB-9F7A-FF3180650286}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8FCE174-63F7-4FAB-9F7A-FF3180650286}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8FCE174-63F7-4FAB-9F7A-FF3180650286}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A8FCE174-63F7-4FAB-9F7A-FF3180650286}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A8FCE174-63F7-4FAB-9F7A-FF3180650286}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A8FCE174-63F7-4FAB-9F7A-FF3180650286}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8FCE174-63F7-4FAB-9F7A-FF3180650286}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8FCE174-63F7-4FAB-9F7A-FF3180650286}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A8FCE174-63F7-4FAB-9F7A-FF3180650286}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A8FCE174-63F7-4FAB-9F7A-FF3180650286}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

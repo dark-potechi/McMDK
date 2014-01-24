@@ -17,15 +17,19 @@ namespace McMDK.Source
         
         private List<Method> methods;
         private List<Field> fields;
+        private List<Class> classes;
 
         private readonly string MethodRegex = @"\[Method\((?<from>[0-9]{3})?,(?<to>[0-9]{3})?\),(?<method>.*)\]";
         private readonly string FieldRegex =  @"\[Field\((?<from>[0-9]{3})?,(?<to>[0-9]{3})?\),(?<action>Set|Get)\((?<p1>.*),(?<p2>.*)\)\]";
+        private readonly string ClassRegex = @"\[Class\((?<from>[0-9]{3})?,(?<to>[0-9]{3})?\),(?<class>.*)\]";
 
         public Parser(string path, string save)
         {
             this.path = path;
             this.save = save;
             this.methods = new List<Method>();
+            this.fields = new List<Field>();
+            this.classes = new List<Class>();
         }
 
         public void Parse()
@@ -80,6 +84,28 @@ namespace McMDK.Source
                 }
                 this.fields.Add(new Field(p1, p2, from, to, action.Equals("Set") ? Action.SET : Action.GET, match.Groups[0].Value));
             }
+
+            regex = new Regex(this.ClassRegex);
+            matches = regex.Matches(text)
+;
+            foreach(Match match in matches)
+            {
+                string clas = "";
+                int from = 0, to = 999;
+                try
+                {
+                    clas = match.Groups["class"].Value;
+                    from = int.Parse(match.Groups["from"].Value);
+                    to = int.Parse(match.Groups["to"].Value);
+                } catch (Exception)
+                {
+                    if(clas.Equals(""))
+                    {
+                        continue;
+                    }
+                }
+                this.classes.Add(new Class(clas, from, to, match.Groups[0].Value));
+            }
         }
 
         public void Save(int version)
@@ -90,13 +116,13 @@ namespace McMDK.Source
         private class Method
         {
             public string Body { private set; get; }
-            public string Method { private set; get; }
+            public string KeyMethod { private set; get; }
             public int From { private set; get; }
             public int To { private set; get; }
 
             public Method(string m, int f, int t, string b)
             {
-                this.Method = m;
+                this.KeyMethod = m;
                 this.From = f;
                 this.To = t;
                 this.Body = b;
@@ -120,6 +146,22 @@ namespace McMDK.Source
                 this.To = t;
                 this.Action = a;
                 this.Body = b;
+            }
+        }
+
+        private class Class
+        {
+            public string Body { private set; get; }
+            public string ClassName { private set; get; }
+            public int From { private set; get; }
+            public int To { private set; get; }
+
+            public Class(string c, int f, int t, string b)
+            {
+                this.Body = b;
+                this.ClassName = c;
+                this.From = f;
+                this.To = t;
             }
         }
 

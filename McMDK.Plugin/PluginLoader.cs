@@ -18,9 +18,14 @@ namespace McMDK.Plugin
         public static void Load()
         {
             //Load plugins
-            string[] plugins = FileController.LoadDirectory(Define.PluginDirectory);
+            string[] plugins = FileController.LoadDirectory(Define.PluginDirectory, true);
             foreach(string plugin in plugins)
             {
+                Define.GetLogger().Debug("load？ -> " + plugin);
+                if(plugin.EndsWith("template"))
+                {
+                    continue;
+                }
                 if(!FileController.Exists(plugin + "\\plugin.xml"))
                 {
                     //Not exist
@@ -37,10 +42,17 @@ namespace McMDK.Plugin
                             Dependents = b.Element("Dependents").Value,
                             Support = b.Element("Support").Value
                         };
+                Plugin p = null;
 
-                Plugin p = (Plugin)a;
+                foreach(var item in a)
+                {
+                    p = item;
+                }
+
                 p.Logger = new Logger(p.Name);
                 p.Logger.Fine("Loaded success.");
+
+                Define.GetLogger().Fine(p.Name + " is loaded.");
 
                 Plugins.Add(p);
             }

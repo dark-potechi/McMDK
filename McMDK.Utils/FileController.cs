@@ -163,15 +163,24 @@ namespace McMDK.Utils
             File.Move(path, name);
         }
 
+        public static string[] LoadDirectory(string path)
+        {
+            return FileController.LoadDirectory(path, false);
+        }
+
         /// <summary>
         ///
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public static string[] LoadDirectory(string path)
+        public static string[] LoadDirectory(string path, bool isdir)
         {
             if (Directory.Exists(path))
             {
+                if(isdir)
+                {
+                    return Directory.GetDirectories(path);
+                }
                 return Directory.GetFiles(path);
             }
             else

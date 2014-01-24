@@ -28,13 +28,11 @@ namespace McMDK
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             DispatcherHelper.UIDispatcher = Dispatcher;
-
-            this.Initialize();
-
-            PluginLoader.Load();
 #if !DEBUG
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 #endif
+            this.Debug();
+            this.Initialize();
         }
 
         private void Initialize()
@@ -139,6 +137,7 @@ namespace McMDK
         private void DownloadResources()
         {
             Minecraft.Load();
+            PluginLoader.Load();
         }
         
         [System.Diagnostics.Conditional("DEBUG")]

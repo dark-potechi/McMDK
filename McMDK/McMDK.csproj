@@ -76,11 +76,15 @@
     <Compile Include="Data\Minecraft.cs" />
     <Compile Include="Source\Parser.cs" />
     <Compile Include="ViewModels\ConfigWindowViewModel.cs" />
+    <Compile Include="ViewModels\Config\AdvancedConfigViewModel.cs" />
     <Compile Include="ViewModels\Config\CommonConfigViewModel.cs" />
     <Compile Include="ViewModels\Config\ModInfoConfigViewModel.cs" />
     <Compile Include="ViewModels\NewProjectWindowViewModel.cs" />
     <Compile Include="Views\ConfigWindow.xaml.cs">
       <DependentUpon>ConfigWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Config\AdvancedConfig.xaml.cs">
+      <DependentUpon>AdvancedConfig.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Config\CommonConfig.xaml.cs">
       <DependentUpon>CommonConfig.xaml</DependentUpon>
@@ -92,6 +96,10 @@
       <DependentUpon>NewProjectWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\ConfigWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Config\AdvancedConfig.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -13,7 +13,7 @@ namespace McMDK.Utils.Log
     public class Logger
     {
         private string name = "";
-        private StreamWriter sw;
+        private string file = "";
 
         public Logger(string log)
         {
@@ -22,8 +22,7 @@ namespace McMDK.Utils.Log
             {
                 FileController.CreateDirectory(Define.LogDirectory);
             }
-            this.sw = new StreamWriter(Define.LogDirectory + "\\" + DateTime.Now.ToString("yyyy-MM-dd_HH.mm.ss") + ".log");
-            this.sw.AutoFlush = true;
+            this.file = DateTime.Now.ToString("yyyy-MM-dd_HH.mm.ss");
         }
 
         public static Logger GetLogger(string log)
@@ -132,7 +131,12 @@ namespace McMDK.Utils.Log
                 sb.Append("\r\n" + e.ToString());
             }
             Console.WriteLine(sb.ToString());
-            this.sw.WriteLine(sb.ToString());
+
+            StreamWriter sw = new StreamWriter(Define.LogDirectory + "\\" + this.file + ".log", true);
+            sw.AutoFlush = true;
+            sw.WriteLine(sb.ToString());
+            sw.Close();
+            sw.Dispose();
         }
 
         public enum Level

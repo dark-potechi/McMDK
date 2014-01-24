@@ -15,7 +15,7 @@ using McMDK.Models;
 
 namespace McMDK.ViewModels.Config
 {
-    public class ModInfoConfigViewModel : ViewModel
+    public class AdvancedConfigViewModel : ViewModel
     {
         /* コマンド、プロパティの定義にはそれぞれ 
          * 
@@ -62,126 +62,5 @@ namespace McMDK.ViewModels.Config
         public void Initialize()
         {
         }
-
-        public void Save()
-        {
-
-        }
-
-
-        #region IsUseTemplete変更通知プロパティ
-
-        private bool _IsUseTemplete;
-        public bool IsUseTemplete
-        {
-            get
-            { 
-                return _IsUseTemplete;
-            }
-            set
-            {
-                if (_IsUseTemplete == value)
-                {
-                    return;
-                }
-                _IsUseTemplete = value;
-                RaisePropertyChanged("IsUseTemplete");
-            }
-        }
-
-        #endregion
-
-
-        #region ModID変更通知プロパティ
-        
-        private string _ModID;
-        public string ModID
-        {
-            get
-            { 
-                return _ModID;
-            }
-            set
-            {
-                if (_ModID == value)
-                {
-                    return;
-                }
-                _ModID = value;
-                RaisePropertyChanged("ModID");
-            }
-        }
-
-        #endregion
-
-
-        #region Url変更通知プロパティ
-
-        private string _Url;
-        public string Url
-        {
-            get
-            {
-                return _Url;
-            }
-            set
-            {
-                if (_Url == value)
-                {
-                    return;
-                }
-                _Url = value;
-                RaisePropertyChanged("Url");
-            }
-        }
-
-        #endregion
-
-
-        #region Credits変更通知プロパティ
-
-        private string _Credits;
-        public string Credits
-        {
-            get
-            { 
-                return _Credits;
-            }
-            set
-            {
-                if (_Credits == value)
-                {
-                    return;
-                }
-                _Credits = value;
-                RaisePropertyChanged("Credits");
-            }
-        }
-
-        #endregion
-
-
-        #region Authors変更通知プロパティ
-
-        private string _Authors;
-        public string Authors
-        {
-            get
-            {
-                return _Authors;
-            }
-            set
-            {
-                if (_Authors == value)
-                {
-                    return;
-                }
-                _Authors = value;
-                RaisePropertyChanged("Authors");
-            }
-        }
-
-        #endregion
-
     }
 }
