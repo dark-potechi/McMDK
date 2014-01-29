@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 
 using McMDK.Utils.Log;
 
+using McMDK.Plugin.Gui;
+using McMDK.Plugin.Gui.Controls;
+
 namespace McMDK.Plugin
 {
-    public class Plugin
+    public class Plugin : IPlugin
     {
         public string Name { set; get; }
 
@@ -23,5 +26,12 @@ namespace McMDK.Plugin
         public string Support { set; get; }
 
         public Logger Logger { set; get; }
+
+        public List<UIControl> Controls { set; get; }
+
+        public void Initialize()
+        {
+            //
+        }
     }
 }

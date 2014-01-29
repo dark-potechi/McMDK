@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using McMDK.Utils.Log;
+
 namespace McMDK.Plugin
 {
     public interface IPlugin
@@ -27,6 +29,21 @@ namespace McMDK.Plugin
         /// プラグインの固有IDを取得します。
         /// </summary>
         string PluginID { get; }
+
+        /// <summary>
+        /// プラグインの依存関係を取得します。
+        /// </summary>
+        string Dependents { get; }
+
+        /// <summary>
+        /// 未使用
+        /// </summary>
+        string Support { get; }
+
+        /// <summary>
+        /// ログ
+        /// </summary>
+        Logger Logger { get; }
 
         /// <summary>
         /// プラグインロード時に呼び出されます。

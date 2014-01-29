@@ -54,11 +54,11 @@ namespace McMDK.Utils
 
         public static readonly string ProtectPass = "Mi8dEppKhXck95rgmNfyc3AXd";
 
-        public static readonly string NewVersionUrl = "http://tuyapin.net/mcmdk/application/version.xml";
+        public static readonly string NewVersionUrl = "http://tuyapin.net/application/mcmdk/version.xml";
 
-        public static readonly string ForgeVersionsUrl = "http://tuyapin.net/mcmdk/application/forge/{0}.xml";
+        public static readonly string ForgeVersionsUrl = "http://tuyapin.net/application/mcmdk/forge/{0}.xml";
 
-        public static readonly string MinecraftVersionUrl = "http://tuyapin.net/mcmdk/application/minecraft.xml";
+        public static readonly string MinecraftVersionUrl = "http://tuyapin.net/application/mcmdk/minecraft.xml";
 
         public static readonly string MinecraftForgeUrl = "http://files.minecraftforge.net/minecraftforge/minecraftforge-src-{0}-{1}.zip";
 
@@ -74,10 +74,10 @@ namespace McMDK.Utils
 
         public static readonly string MinecraftSrvJarUrl = "http://assets.minecraft.net/{0}/minecraft_server.jar";
 
-        public static readonly string LibrariesUrl = "http://tuyapin.net/mcmdk/application/libs/";
+        public static readonly string LibrariesUrl = "http://tuyapin.net/application/mcmdk/libs/";
 
         public static readonly string MinecraftResUrl = "http://s3.amazonaws.com/MinecraftDownload/";
 
-        public static readonly string PatchesUrl = "http://tuyapin.net/mcmdk/application/patch/{0}.zip";
+        public static readonly string PatchesUrl = "http://tuyapin.net/application/mcmdk/patch/{0}.zip";
     }
 }
