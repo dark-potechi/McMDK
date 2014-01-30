@@ -80,12 +80,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Data\Minecraft.cs" />
+    <Compile Include="MCP\Recompile.cs" />
     <Compile Include="MCP\Setup.cs" />
     <Compile Include="Source\Parser.cs" />
     <Compile Include="ViewModels\ConfigWindowViewModel.cs" />
     <Compile Include="ViewModels\Config\AdvancedConfigViewModel.cs" />
     <Compile Include="ViewModels\Config\CommonConfigViewModel.cs" />
     <Compile Include="ViewModels\Config\ModInfoConfigViewModel.cs" />
+    <Compile Include="ViewModels\Config\PluginConfigViewModel.cs" />
     <Compile Include="ViewModels\NewProjectWindowViewModel.cs" />
     <Compile Include="ViewModels\ProgressWindowViewModel.cs" />
     <Compile Include="Views\ConfigWindow.xaml.cs">
@@ -99,6 +101,9 @@
     </Compile>
     <Compile Include="Views\Config\ModInfoConfig.xaml.cs">
       <DependentUpon>ModInfoConfig.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Config\PluginConfig.xaml.cs">
+      <DependentUpon>PluginConfig.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\NewProjectWindow.xaml.cs">
       <DependentUpon>NewProjectWindow.xaml</DependentUpon>
@@ -119,6 +124,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Config\ModInfoConfig.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Config\PluginConfig.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

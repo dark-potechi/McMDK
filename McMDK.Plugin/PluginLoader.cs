@@ -26,9 +26,10 @@ namespace McMDK.Plugin
             string[] plugins = FileController.LoadDirectory(Define.PluginDirectory, true);
             foreach(string plugin in plugins)
             {
-                Define.GetLogger().Debug("load？ -> " + plugin);
+                Define.GetLogger().Fine("Loading Plugin from " + plugin);
                 if(plugin.EndsWith("template"))
                 {
+                    Define.GetLogger().Fine("Skip loading plugin of " + plugin);
                     continue;
                 }
                 if(!FileController.Exists(plugin + "\\plugin.xml"))
@@ -55,6 +56,7 @@ namespace McMDK.Plugin
                 }
 
                 p.Logger = new Logger(p.Name);
+                p.Logger.SetParent(Define.GetLogger());
                 p.Logger.Fine("Initializing...");
                 p.Initialize();
                 p.Logger.Fine("Initialized.");
@@ -64,6 +66,9 @@ namespace McMDK.Plugin
                 p.Logger.Fine("Loaded UI Settings.");
 
                 //Load Builder 
+                p.Logger.Fine("Loading Builder Settings...");
+                //
+                p.Logger.Fine("Loaded Builder Settings.");
 
                 Define.GetLogger().Fine(p.Name + " is loaded.");
 
@@ -138,17 +143,16 @@ namespace McMDK.Plugin
                 control.Component = StringToObjectConverter.StringToComponents(((XmlElement)node).Name);
                 control.Foreground = StringToObjectConverter.StringToBrush(((XmlElement)node).GetAttribute("Foreground"), new System.Windows.Media.SolidColorBrush(new System.Windows.Media.Color() { A = (byte)0xFF, R = (byte)0x00, G = (byte)0x00, B = (byte)0x00 }));
                 control.Height = StringToObjectConverter.StringTo<double>(((XmlElement)node).GetAttribute("Height"));
-                control.HorizontalAlignment = (HorizontalAlignment)StringToObjectConverter.StringToProperty(((XmlElement)node).GetAttribute("HorizontalAlignment"), typeof(HorizontalAlignment));
+                control.HorizontalAlignment = (HorizontalAlignment?)StringToObjectConverter.StringToProperty(((XmlElement)node).GetAttribute("HorizontalAlignment"), typeof(HorizontalAlignment));
                 control.IsEnabled = StringToObjectConverter.StringTo<bool>(((XmlElement)node).GetAttribute("IsEnabled"));
                 control.IsVisible = StringToObjectConverter.StringTo<bool>(((XmlElement)node).GetAttribute("IsVisible"));
                 //control.Margin =
                 control.Name = (((XmlElement)node).GetAttribute("Name"));
                 control.Opacity = StringToObjectConverter.StringTo<double>(((XmlElement)node).GetAttribute("Opacity"));
                 control.ToolTip = (((XmlElement)node).GetAttribute("ToolTip"));
-                control.VerticalAlignment = (VerticalAlignment)StringToObjectConverter.StringToProperty(((XmlElement)node).GetAttribute("VerticalAlignment"), typeof(VerticalAlignment));
-                control.Visibility = (Visibility)StringToObjectConverter.StringToEnum(((XmlElement)node).GetAttribute("Visibility"), typeof(Visibility));
+                control.VerticalAlignment = (VerticalAlignment?)StringToObjectConverter.StringToProperty(((XmlElement)node).GetAttribute("VerticalAlignment"), typeof(VerticalAlignment));
+                control.Visibility = (Visibility?)StringToObjectConverter.StringToEnum(((XmlElement)node).GetAttribute("Visibility"), typeof(Visibility));
                 control.Width = StringToObjectConverter.StringTo<double>(((XmlElement)node).GetAttribute("Width"));
-
                 parentControl.Children.Add(control);
                 RecursiveSerializeXML(node, control);
             }

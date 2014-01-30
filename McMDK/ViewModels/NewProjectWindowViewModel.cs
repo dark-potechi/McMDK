@@ -132,8 +132,17 @@ namespace McMDK.ViewModels
                 MCPVersion = Minecraft.MCPVersions[this.MinecraftVersion]
             };
 
-            
-            
+
+            Setup setup = new Setup(project);
+            //setup.SetProgressWindow(this.View);
+            if(this.MinecraftVersion.Contains("Gradle"))
+            {
+                setup.SetupForgeGradle();
+            }
+            else
+            {
+                setup.SetupForge();
+            }
         }
 
         #endregion

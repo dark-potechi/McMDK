@@ -69,6 +69,19 @@
                             </Style>
                         </c:ModInfoConfig.Style>
                     </c:ModInfoConfig>
+
+                    <c:PluginConfig DataContext="{Binding PluginConfigViewModel}">
+                        <c:PluginConfig.Style>
+                            <Style TargetType="c:PluginConfig">
+                                <Setter Property="Visibility" Value="Hidden"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SelectedIndex, ElementName=Box}" Value="3">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </c:PluginConfig.Style>
+                    </c:PluginConfig>
                 </Grid>
                 <Button Content="OK" FontSize="14" Height="30" Width="80"
                         Margin="0,0,100,10" HorizontalAlignment="Right" VerticalAlignment="Bottom"

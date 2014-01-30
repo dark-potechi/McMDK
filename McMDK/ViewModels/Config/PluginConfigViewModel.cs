@@ -12,12 +12,11 @@ using Livet.EventListeners;
 using Livet.Messaging.Windows;
 
 using McMDK.Models;
-using McMDK.Views;
-using McMDK.ViewModels.Config;
+using McMDK.Plugin;
 
-namespace McMDK.ViewModels
+namespace McMDK.ViewModels.Config
 {
-    public class ConfigWindowViewModel : ViewModel
+    public class PluginConfigViewModel : ViewModel
     {
         /* コマンド、プロパティの定義にはそれぞれ 
          * 
@@ -60,105 +59,44 @@ namespace McMDK.ViewModels
          * LivetのViewModelではプロパティ変更通知(RaisePropertyChanged)やDispatcherCollectionを使ったコレクション変更通知は
          * 自動的にUIDispatcher上での通知に変換されます。変更通知に際してUIDispatcherを操作する必要はありません。
          */
-        public ConfigWindow View;
 
         public void Initialize()
         {
-            this.CommonConfigViewModel.Initialize();
-            this.ModInfoConfigViewModel.Initialize();
-            this.PluginConfigViewModel.Initialize();
+            this.Plugins = new List<string>();
+
+            foreach(McMDK.Plugin.Plugin p in PluginLoader.GetPlugins())
+            {
+                this.Plugins.Add(p.Name + " (" + p.PluginID + ") Version " + p.Version);
+            }
+        }
+
+        public void Save()
+        {
+            //
         }
 
 
-        #region OKCommand
+        #region Plugins変更通知プロパティ
 
-        private ViewModelCommand _OKCommand;
-        public ViewModelCommand OKCommand
+        private List<string> _Plugins;
+        public List<string> Plugins
         {
             get
+            { 
+                return _Plugins;
+            }
+            set
             {
-                if(_OKCommand == null)
+                if (_Plugins == value)
                 {
-                    _OKCommand = new ViewModelCommand(Apply);
+                    return;
                 }
-                return _OKCommand;
-            }
-        }
-
-        public void Apply()
-        {
-            //保存
-            this.CommonConfigViewModel.Save();
-            this.ModInfoConfigViewModel.Save();
-            this.PluginConfigViewModel.Save();
-            this.View.Dismiss();
-        }
-
-        #endregion
-
-
-        #region CancelCommand
-
-        private ViewModelCommand _CancelCommand;
-        public ViewModelCommand CancelCommand
-        {
-            get
-            {
-                if(_CancelCommand == null)
-                {
-                    _CancelCommand = new ViewModelCommand(Dismiss);
-                }
-                return _CancelCommand;
-            }
-        }
-
-        public void Dismiss()
-        {
-            this.View.Dismiss();
-        }
-
-        #endregion
-
-
-        #region CommonConfigViewModel
-
-        private CommonConfigViewModel _CommonConfigViewModel = new CommonConfigViewModel();
-        public CommonConfigViewModel CommonConfigViewModel
-        {
-            get
-            {
-                return this._CommonConfigViewModel;
+                _Plugins = value;
+                RaisePropertyChanged("Plugins");
             }
         }
 
         #endregion
 
-
-        #region ModInfoConfigViewModel
-
-        private ModInfoConfigViewModel _ModInfoConfigViewModel = new ModInfoConfigViewModel();
-        public ModInfoConfigViewModel ModInfoConfigViewModel
-        {
-            get
-            {
-                return this._ModInfoConfigViewModel;
-            }
-        }
-
-        #endregion
-
-
-        #region PluginConfigViewModel
-
-        private PluginConfigViewModel _PluginConfigViewModel = new PluginConfigViewModel();
-        public PluginConfigViewModel PluginConfigViewModel
-        {
-            get
-            {
-                return this._PluginConfigViewModel;
-            }
-        }
-
-        #endregion
     }
 }

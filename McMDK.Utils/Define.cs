@@ -66,6 +66,8 @@ namespace McMDK.Utils
 
         public static readonly string CoderPackUrl = "http://mcp.ocean-labs.de/files/archive/mcp{0}.zip";
 
+        public static readonly string PatchesUrl = "http://tuyapin.net/application/mcmdk/patch/{0}.zip";
+
         public static readonly string MinecraftLoginUrl = "https://login.minecraft.net/?user={0}&password={1}&version=14";
 
         public static readonly string UpdateMd5Uri = "http://api.tuyapin.net/mcmdk/2/updatemd5.php";
@@ -77,7 +79,5 @@ namespace McMDK.Utils
         public static readonly string LibrariesUrl = "http://tuyapin.net/application/mcmdk/libs/";
 
         public static readonly string MinecraftResUrl = "http://s3.amazonaws.com/MinecraftDownload/";
-
-        public static readonly string PatchesUrl = "http://tuyapin.net/application/mcmdk/patch/{0}.zip";
     }
 }

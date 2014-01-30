@@ -17,6 +17,10 @@ namespace McMDK.Utils
         /// <param name="work">Target Directory</param>
         public static void ApplyPatch(string dir, string work)
         {
+            if(!FileController.Exists(dir))
+            {
+                return;
+            }
             List<string> files = Directory.GetFiles(dir, "*.patch", SearchOption.AllDirectories).ToList<string>();
             foreach(string file in files)
             {

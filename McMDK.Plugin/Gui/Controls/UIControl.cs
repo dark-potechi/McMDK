@@ -43,5 +43,10 @@ namespace McMDK.Plugin.Gui.Controls
         public UIControl Parent { set; get; }
 
         public object Tag { set; get; }
+
+        public UIControl()
+        {
+            this.Children = new List<UIControl>();
+        }
     }
 }

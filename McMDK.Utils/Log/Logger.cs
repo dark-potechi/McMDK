@@ -14,6 +14,7 @@ namespace McMDK.Utils.Log
     {
         private string name = "";
         private string file = "";
+        private Logger logger = null;
 
         public Logger(string log)
         {
@@ -28,6 +29,21 @@ namespace McMDK.Utils.Log
         public static Logger GetLogger(string log)
         {
             return new Logger(log);
+        }
+
+        public void SetParent(Logger logger)
+        {
+            this.logger = logger;
+        }
+
+        private string GetLoggerName()
+        {
+            return this.name;
+        }
+
+        private string GetLoggerFile()
+        {
+            return this.file;
         }
 
         public void Fine(object msg)
@@ -96,6 +112,7 @@ namespace McMDK.Utils.Log
             StringBuilder sb = new StringBuilder();
             sb.Append(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss "));
             sb.Append("[" + this.name + "]");
+
             switch(level)
             {
                 case Level.FINE:
@@ -132,7 +149,15 @@ namespace McMDK.Utils.Log
             }
             Console.WriteLine(sb.ToString());
 
-            StreamWriter sw = new StreamWriter(Define.LogDirectory + "\\" + this.file + ".log", true);
+            StreamWriter sw = null;
+            if(this.logger != null)
+            {
+                sw = new StreamWriter(Define.LogDirectory + "\\" + this.logger.GetLoggerFile() + ".log", true);
+            }
+            else
+            {
+                sw = new StreamWriter(Define.LogDirectory + "\\" + this.file + ".log", true);
+            }
             sw.AutoFlush = true;
             sw.WriteLine(sb.ToString());
             sw.Close();

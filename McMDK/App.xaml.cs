@@ -37,7 +37,7 @@ namespace McMDK
 
         private void Initialize()
         {
-            Define.GetLogger().Info("McMDK" + Define.GetVersion() + " initialize.");
+            Define.GetLogger().Info("McMDK " + Define.GetVersion() + " initializing.");
 
             //Check JDK
             try
@@ -91,7 +91,7 @@ namespace McMDK
                 Environment.Exit(1);
             }
 
-            Define.GetLogger().Info("McMDK initialized");
+            Define.GetLogger().Info("McMDK initialized.");
             this.CheckUpdate();
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -61,19 +62,24 @@ namespace McMDK.MCP
         /// </summary>
         public void SetupForge()
         {
+            Define.GetLogger().Fine("");
+            Define.GetLogger().Fine("Setup Modding Environment");
+            Define.GetLogger().Fine(String.Format("Minecraft ({0}), MCP ({1}), MinecraftForge ({2}), Name ({3})", this.project.MCVersion, this.project.MCPVersion, this.project.ForgeVersion, this.project.Name));
             String work = Define.ProjectDirectory + "\\" + this.project.Name + "\\";
 
             this.downloads = new List<string>
             { 
                 String.Format(Define.CoderPackUrl, this.project.MCPVersion),
-                String.Format(Define.MinecraftForgeUrl, this.project.MCVersion, this.project.ForgeVersion)
+                String.Format(Define.MinecraftForgeUrl, this.project.MCVersion, this.project.ForgeVersion),
+                String.Format(Define.PatchesUrl, this.project.MCVersion)
             };
             this.files = new List<string>
             {
                 work + "mcp.zip",
-                work + "minecraftforge.zip"
+                work + "minecraftforge.zip",
+                work + "patch.zip"
             };
-            if(int.Parse(this.project.MCVersion) < 150)
+            if(int.Parse(this.project.MCVersion.Replace(".", "")) < 150)
             {
                 this.downloads.Add(String.Format(Define.MinecraftJarUrl, this.project.MCVersion.Replace(".", "_")));
                 this.downloads.Add(String.Format(Define.MinecraftSrvJarUrl, this.project.MCVersion.Replace(".", "_")));
@@ -95,8 +101,6 @@ namespace McMDK.MCP
                 this.files.Add(work + "jars\\bin\\natives\\linux_natives.jar");
                 this.files.Add(work + "runtime\\bin\\fernflower.jar");
             }
-            this.downloads.Add(String.Format(Define.PatchesUrl, this.project.MCVersion));
-            this.files.Add(work + "patch.zip");
 
             Define.GetLogger().Fine(this.downloads.Count + " files download.");
 
@@ -113,6 +117,7 @@ namespace McMDK.MCP
                     this.viewModel.SetProgressValue(0);
                     this.viewModel.SetText("Downloading " + this.downloads[0]);
                 }
+                Define.GetLogger().Fine("Downloading from " + this.downloads[0]);
 
                 if (!FileController.Exists(FileController.GetDirectoryName(this.files[0])))
                 {
@@ -159,7 +164,7 @@ namespace McMDK.MCP
         private void Forge_Setup()
         {
             string work = Define.ProjectDirectory + "\\" + this.project.Name + "\\";
-            Patcher.ApplyPatch(work + "\\patches", work);
+            Patcher.ApplyPatch(work + "\\patches_before", work);
 
             if(FileController.Exists(work + "\\forge\\fml\\fml.json"))
             {
@@ -167,6 +172,20 @@ namespace McMDK.MCP
             }
 
             //Setup
+            Process proc = new Process();
+            proc.StartInfo.FileName = work + "\\runtime\\bin\\python\\python_mcp.exe";
+            proc.StartInfo.Arguments = "\"" + work + "\\forge\\install.py\" --mcp-dir \"" + work + "\"";
+            proc.StartInfo.CreateNoWindow = true;
+            proc.StartInfo.UseShellExecute = false;
+            proc.StartInfo.RedirectStandardError = true;
+            proc.StartInfo.RedirectStandardOutput = true;
+            proc.EnableRaisingEvents = true;
+            proc.OutputDataReceived += DataReceived;
+            proc.ErrorDataReceived += DataReceived;
+            proc.Exited += Forge_InstallEnd;
+            proc.Start();
+            proc.BeginOutputReadLine();
+            proc.BeginErrorReadLine();
         }
 
         private void Forge_DownloadLibs()
@@ -178,8 +197,13 @@ namespace McMDK.MCP
             foreach(JObject o in libs)
             {
                 string name = (string)o["name"];
+                //Minecraft Base Wrapper
+                if(name.Contains("net.minecraft:launchwrapper"))
+                {
+                    continue;
+                }
                 string url = (string)o["url"];
-                string[] children = (string[])((JArray)o["children"]).Values().Cast<string>();
+                string[] children = o["children"] != null ? (string[])((JArray)o["children"]).Values().Cast<string>() : null;
                 string[] natives = new string[3];
                 natives[0] = (string)o["natives"]["linux"];
                 natives[1] = (string)o["natives"]["windows"];
@@ -206,6 +230,19 @@ namespace McMDK.MCP
             }
         }
 
+        private void Forge_InstallEnd(object sender, EventArgs e)
+        {
+            string work = Define.ProjectDirectory + "\\" + this.project.Name + "\\";
+            Patcher.ApplyPatch(work + "\\patches_after", work);
+
+            Recompile recompile = new Recompile(this.project);
+            if(this.viewModel != null)
+            {
+                recompile.SetProgressWindow(this.viewModel);
+            }
+            recompile.RecompileForge();
+        }
+
         #endregion
 
         // ================================================================================================================
@@ -228,6 +265,14 @@ namespace McMDK.MCP
             if (this.viewModel != null)
             {
                 this.viewModel.SetProgressValue(e.ProgressPercentage);
+            }
+        }
+
+        private void DataReceived(object sender, DataReceivedEventArgs e)
+        {
+            if(e.Data != null)
+            {
+                Define.GetLogger().Info(e.Data);
             }
         }
     }

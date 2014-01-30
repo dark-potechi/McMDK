@@ -49,6 +49,5 @@ namespace McMDK.Plugin
         /// プラグインロード時に呼び出されます。
         /// </summary>
         void Initialize();
-
     }
 }

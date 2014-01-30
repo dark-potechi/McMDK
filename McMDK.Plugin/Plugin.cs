@@ -31,7 +31,7 @@ namespace McMDK.Plugin
 
         public void Initialize()
         {
-            //
+            this.Controls = new List<UIControl>();
         }
     }
 }
