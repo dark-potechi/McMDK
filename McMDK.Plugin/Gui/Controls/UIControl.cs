@@ -18,17 +18,17 @@ namespace McMDK.Plugin.Gui.Controls
 
         public double Width { set; get; }
 
-        public bool IsEnabled { set; get; }
+        public bool? IsEnabled { set; get; }
 
-        public bool IsVisible { set; get; }
+        public bool? IsVisible { set; get; }
 
-        public Visibility Visibility { set; get; }
+        public Visibility? Visibility { set; get; }
 
-        public HorizontalAlignment HorizontalAlignment { set; get; }
+        public HorizontalAlignment? HorizontalAlignment { set; get; }
 
-        public VerticalAlignment VerticalAlignment { set; get; }
+        public VerticalAlignment? VerticalAlignment { set; get; }
 
-        public Thickness Margin { set; get; }
+        public Thickness? Margin { set; get; }
 
         public Brush Background { set; get; }
 

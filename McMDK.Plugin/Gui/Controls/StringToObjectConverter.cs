@@ -28,15 +28,23 @@ namespace McMDK.Plugin.Gui.Controls
 
         public static Type StringTo<Type>(string obj) where Type : struct
         {
-            var converter = TypeDescriptor.GetConverter(typeof(Type));
-            if(converter != null)
+            if(!String.IsNullOrEmpty(obj))
             {
-                return (Type)converter.ConvertFromString(obj);
+                var converter = TypeDescriptor.GetConverter(typeof(Type));
+                if (converter != null)
+                {
+                    return (Type)converter.ConvertFromString(obj);
+                }
             }
             return default(Type);
         }
 
         public static object StringToEnum(string obj, Type type)
+        {
+            return StringToObjectConverter.StringToEnum(obj, type, null);
+        }
+
+        public static object StringToEnum(string obj, Type type, object def)
         {
             try
             {
@@ -44,11 +52,16 @@ namespace McMDK.Plugin.Gui.Controls
             }
             catch (Exception)
             {
-                return null;
+                return def;
             }
         }
 
         public static object StringToProperty(string obj, Type type)
+        {
+            return StringToObjectConverter.StringToProperty(obj, type, null);
+        }
+
+        public static object StringToProperty(string obj, Type type, object def)
         {
             try
             {
@@ -58,31 +71,34 @@ namespace McMDK.Plugin.Gui.Controls
             }
             catch (Exception)
             {
-                return null;
+                return def;
             }
         }
 
         public static Brush StringToBrush(string obj)
         {
-            Brush brush = Brushes.White;
+            return StringToObjectConverter.StringToBrush(obj, null);
+        }
+
+        public static Brush StringToBrush(string obj, Brush def)
+        {
             try
             {
-                PropertyInfo info = typeof(Brushes).GetProperty(obj);
-                brush = (Brush)info.GetValue(brush);
-            }
-            catch (ArgumentNullException)
-            {
-                Color color = new Color();
-                if(obj.StartsWith("#"))
+                if (String.IsNullOrEmpty(obj))
                 {
-                    if(obj.Length == 9)
+                    return def;
+                }
+                if (obj.StartsWith("#"))
+                {
+                    Color color = new Color();
+                    if (obj.Length == 9)
                     {
                         color.A = (byte)Convert.ToInt32(obj.Substring(1, 2), 16);
                         color.R = (byte)Convert.ToInt32(obj.Substring(3, 2), 16);
                         color.G = (byte)Convert.ToInt32(obj.Substring(5, 2), 16);
                         color.B = (byte)Convert.ToInt32(obj.Substring(7, 2), 16);
                     }
-                    else if(obj.Length == 7)
+                    else if (obj.Length == 7)
                     {
                         color.R = (byte)Convert.ToInt32(obj.Substring(1, 2), 16);
                         color.G = (byte)Convert.ToInt32(obj.Substring(3, 2), 16);
@@ -94,15 +110,16 @@ namespace McMDK.Plugin.Gui.Controls
                         color.G = (byte)Convert.ToInt32("00", 16);
                         color.B = (byte)Convert.ToInt32("00", 16);
                     }
+                    return new SolidColorBrush(color);
                 }
-                
-                brush = new SolidColorBrush(color);
+                Brush brush = null;
+                PropertyInfo info = typeof(Brushes).GetProperty(obj);
+                return (Brush)info.GetValue(brush);
             }
-            catch (AmbiguousMatchException)
+            catch (Exception)
             {
-                brush = Brushes.White;
             }
-            return brush;
+            return def;
         }
     }
 }

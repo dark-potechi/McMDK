@@ -76,26 +76,33 @@ namespace McMDK.Plugin
             return Plugins;
         }
 
-        private static Plugin SerializeXML(Plugin plugin, string dir)
+        private static void SerializeXML(Plugin plugin, string dir)
         {
             if(!FileController.Exists(dir + "\\ui.xml"))
             {
-                return plugin;
+                return;
             }
-            XmlDocument document = new XmlDocument();
-            document.Load(dir + "\\ui.xml");
 
-            XmlNode node = document.DocumentElement;
+            try
+            {
+                XmlDocument document = new XmlDocument();
+                document.Load(dir + "\\ui.xml");
 
-            UIControl control = new UIControl();
-            control.Component = (GuiComponents)Enum.Parse(typeof(GuiComponents), ((XmlElement)node).Name);
+                XmlNode root = document.DocumentElement;
+                XmlNode node = root.ChildNodes[0];
 
-            //再帰的処理
-            RecursiveSerializeXML(node, control);
+                UIControl control = new UIControl();
+                control.Component = (GuiComponents)Enum.Parse(typeof(GuiComponents), ((XmlElement)node).Name);
 
-            plugin.Controls.Add(control);
+                //再帰的処理
+                RecursiveSerializeXML(node, control);
 
-            return plugin;
+                plugin.Controls.Add(control);
+            }
+            catch (Exception e)
+            {
+                plugin.Logger.Error("Load failed.", e);
+            }
         }
 
         private static void RecursiveSerializeXML(XmlNode parentNode, UIControl parentControl)
@@ -112,9 +119,9 @@ namespace McMDK.Plugin
                     case "ComboBox":
                         var textcontrol = new TextControl();
                         textcontrol.FontSize = StringToObjectConverter.StringTo<double>(((XmlElement)node).GetAttribute("FontSize"));
-                        textcontrol.FontStretch = (FontStretch)StringToObjectConverter.StringToProperty(((XmlElement)node).GetAttribute("FontStretch"), typeof(FontStretches));
-                        textcontrol.FontStyle = (FontStyle)StringToObjectConverter.StringToProperty(((XmlElement)node).GetAttribute("FontStyle"), typeof(FontStyles));
-                        textcontrol.FontWeight = (FontWeight)StringToObjectConverter.StringToProperty(((XmlElement)node).GetAttribute("FontWeight"), typeof(FontWeights));
+                        textcontrol.FontStretch = (FontStretch)StringToObjectConverter.StringToProperty(((XmlElement)node).GetAttribute("FontStretch"), typeof(FontStretches), FontStretches.Normal);
+                        textcontrol.FontStyle = (FontStyle)StringToObjectConverter.StringToProperty(((XmlElement)node).GetAttribute("FontStyle"), typeof(FontStyles), FontStyles.Normal);
+                        textcontrol.FontWeight = (FontWeight)StringToObjectConverter.StringToProperty(((XmlElement)node).GetAttribute("FontWeight"), typeof(FontWeights), FontWeights.Normal);
                         control = textcontrol;
                         break;
 
@@ -127,9 +134,9 @@ namespace McMDK.Plugin
                         control = new UIControl();
                         break;
                 }
-                control.Background = StringToObjectConverter.StringToBrush(((XmlElement)node).GetAttribute("Background"));
+                control.Background = StringToObjectConverter.StringToBrush(((XmlElement)node).GetAttribute("Background"), new System.Windows.Media.SolidColorBrush(new System.Windows.Media.Color() { A = (byte)0xFF, R = (byte)0xFF, G = (byte)0xFF, B = (byte)0xFF }));
                 control.Component = StringToObjectConverter.StringToComponents(((XmlElement)node).Name);
-                control.Foreground = StringToObjectConverter.StringToBrush(((XmlElement)node).GetAttribute("Foreground"));
+                control.Foreground = StringToObjectConverter.StringToBrush(((XmlElement)node).GetAttribute("Foreground"), new System.Windows.Media.SolidColorBrush(new System.Windows.Media.Color() { A = (byte)0xFF, R = (byte)0x00, G = (byte)0x00, B = (byte)0x00 }));
                 control.Height = StringToObjectConverter.StringTo<double>(((XmlElement)node).GetAttribute("Height"));
                 control.HorizontalAlignment = (HorizontalAlignment)StringToObjectConverter.StringToProperty(((XmlElement)node).GetAttribute("HorizontalAlignment"), typeof(HorizontalAlignment));
                 control.IsEnabled = StringToObjectConverter.StringTo<bool>(((XmlElement)node).GetAttribute("IsEnabled"));
@@ -138,6 +145,7 @@ namespace McMDK.Plugin
                 control.Name = (((XmlElement)node).GetAttribute("Name"));
                 control.Opacity = StringToObjectConverter.StringTo<double>(((XmlElement)node).GetAttribute("Opacity"));
                 control.ToolTip = (((XmlElement)node).GetAttribute("ToolTip"));
+                control.VerticalAlignment = (VerticalAlignment)StringToObjectConverter.StringToProperty(((XmlElement)node).GetAttribute("VerticalAlignment"), typeof(VerticalAlignment));
                 control.Visibility = (Visibility)StringToObjectConverter.StringToEnum(((XmlElement)node).GetAttribute("Visibility"), typeof(Visibility));
                 control.Width = StringToObjectConverter.StringTo<double>(((XmlElement)node).GetAttribute("Width"));
 

@@ -15,18 +15,18 @@ namespace McMDK.Plugin.Gui.Controls
 
         public double FontSize { set; get; }
 
-        public FontWeight FontWeight { set; get; }
+        public FontWeight? FontWeight { set; get; }
 
         public FontFamily FontFamily { set; get; }
 
-        public FontStretch FontStretch { set; get; }
+        public FontStretch? FontStretch { set; get; }
 
-        public FontStyle FontStyle { set; get; }
+        public FontStyle? FontStyle { set; get; }
 
-        public TextAlignment TextAlignment { set; get; }
+        public TextAlignment? TextAlignment { set; get; }
 
         public TextDecoration TextDecoration { set; get; }
 
-        public TextWrapping TextWrapping { set; get; }
+        public TextWrapping? TextWrapping { set; get; }
     }
 }
